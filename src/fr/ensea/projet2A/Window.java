@@ -41,7 +41,7 @@ public class Window extends JFrame implements ActionListener{
         File.add(Quit);
 
         JMenu About= new JMenu("About");
-        JMenuItem Authors= new JMenuItem("Authors");
+        JMenuItem Authors= new JMenuItem("Author");
 
         About.add(Authors);
 
@@ -102,11 +102,12 @@ public class Window extends JFrame implements ActionListener{
         ColorPanel.add(Magenta);
         ColorPanel.add(Pink);
 
-        FigurePanel.add(Square);
+
         FigurePanel.add(Rectangle);
-        FigurePanel.add(Circle);
         FigurePanel.add(Ellipse);
         FigurePanel.add(Line);
+        FigurePanel.add(Square);
+        FigurePanel.add(Circle);
         FigurePanel.add(Fill);
 
         contentPanel.add(Panel,"South");
