@@ -2,6 +2,7 @@ package fr.ensea.projet2A;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -183,8 +184,13 @@ public class Window extends JFrame implements ActionListener{
             case "Open" ->{
                 BufferedImage pictureFile=null;
                 try {
+                    JFileChooser f=new JFileChooser();
+                    f.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                    f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png"));
+                    f.showOpenDialog(null);
+
                     System.out.println("load");
-                    pictureFile = ImageIO.read(new File("C:\\Users\\flori\\IdeaProjects\\ProjectPaint\\Paint.png"));
+                    pictureFile = ImageIO.read(new File(String.valueOf(f.getSelectedFile())));
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -200,7 +206,12 @@ public class Window extends JFrame implements ActionListener{
                 BufferedImage im = new BufferedImage(cPanel.getWidth(), cPanel.getHeight(), BufferedImage.TYPE_INT_ARGB);
                 cPanel.paint(im.getGraphics());
                 try {
-                    ImageIO.write(im, "PNG", new File("Paint.png"));
+                    JFileChooser f=new JFileChooser();
+                    f.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                    f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png"));
+                    f.showSaveDialog(null);
+
+                    ImageIO.write(im, "PNG", new File(String.valueOf(f.getSelectedFile())));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
