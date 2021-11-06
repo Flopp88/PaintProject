@@ -196,13 +196,14 @@ public class Window extends JFrame implements ActionListener{
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                assert pictureFile != null;
-                if(pictureFile.getHeight()>drawPanel.getHeight() | pictureFile.getWidth()>drawPanel.getWidth()) {
-                    pictureFile= compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), drawPanel.getHeight());
+                if(pictureFile != null) {
+                    if (pictureFile.getHeight() > drawPanel.getHeight() | pictureFile.getWidth() > drawPanel.getWidth()) {
+                        pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), drawPanel.getHeight());
+                    }
+                    drawPanel.Clear();
+                    this.drawPanel.setFilePicture(pictureFile);
+                    drawPanel.paintComponent(drawPanel.getGraphics());
                 }
-                drawPanel.Clear();
-                this.drawPanel.setFilePicture(pictureFile);
-                drawPanel.paintComponent(drawPanel.getGraphics());
             }
             case "New" -> new Window("Paint",800,600);
             case "Save" -> {
@@ -215,7 +216,12 @@ public class Window extends JFrame implements ActionListener{
                     f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png"));
                     f.showSaveDialog(null);
 
-                    ImageIO.write(im, "PNG", new File(String.valueOf(f.getSelectedFile())));
+                    if(String.valueOf(f.getSelectedFile()).endsWith(".png") | String.valueOf(f.getSelectedFile()).endsWith(".jpg")) {
+                        ImageIO.write(im, "PNG", new File(String.valueOf(f.getSelectedFile())));
+                    }
+                    else{
+                        ImageIO.write(im, "PNG", new File(f.getSelectedFile() + ".png"));
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
