@@ -1,3 +1,5 @@
+package fr.ensea.projet2A;
+
 import java.awt.*;
 
 public class Line extends Figure{

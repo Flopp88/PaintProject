@@ -1,6 +1,8 @@
+package fr.ensea.projet2A;
+
 import java.awt.*;
 
-public class Circle extends Ellipse{
+public class Circle extends Ellipse {
 
     public Circle(){
         super.semiAxisX=0;

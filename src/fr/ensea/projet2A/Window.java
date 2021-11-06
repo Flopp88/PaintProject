@@ -1,3 +1,5 @@
+package fr.ensea.projet2A;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -162,7 +164,7 @@ public class Window extends JFrame implements ActionListener{
             case "Quit" -> {
                 if (JOptionPane.showConfirmDialog(null, "Close Paint?", "WARNING",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    System.exit(0);
+                    dispose();
                 }
             }
             case "Authors" -> {
@@ -174,6 +176,8 @@ public class Window extends JFrame implements ActionListener{
                 if (JOptionPane.showConfirmDialog(null, "Delete your drawings?", "WARNING",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     drawPanel.Clear();
+                    drawPanel.setFilePicture(null);
+                    drawPanel.paintComponent(drawPanel.getGraphics());
                 }
             }
             case "Open" ->{
@@ -190,11 +194,7 @@ public class Window extends JFrame implements ActionListener{
                 this.drawPanel.setFilePicture(pictureFile);
                 drawPanel.paintComponent(drawPanel.getGraphics());
             }
-            case "New" -> {
-                drawPanel.Clear();
-                drawPanel.setFilePicture(null);
-                drawPanel.paintComponent(drawPanel.getGraphics());
-            }
+            case "New" -> new Window("Paint",800,600);
             case "Save" -> {
                 Container cPanel = drawPanel;
                 BufferedImage im = new BufferedImage(cPanel.getWidth(), cPanel.getHeight(), BufferedImage.TYPE_INT_ARGB);

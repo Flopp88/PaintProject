@@ -1,3 +1,5 @@
+package fr.ensea.projet2A;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
