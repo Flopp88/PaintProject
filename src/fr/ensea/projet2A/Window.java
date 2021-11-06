@@ -196,6 +196,9 @@ public class Window extends JFrame implements ActionListener{
                     ex.printStackTrace();
                 }
                 assert pictureFile != null;
+                if(pictureFile.getHeight()>drawPanel.getHeight() | pictureFile.getWidth()>drawPanel.getWidth()) {
+                    pictureFile= compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), drawPanel.getHeight());
+                }
                 drawPanel.Clear();
                 this.drawPanel.setFilePicture(pictureFile);
                 drawPanel.paintComponent(drawPanel.getGraphics());
@@ -217,5 +220,14 @@ public class Window extends JFrame implements ActionListener{
                 }
             }
         }
+    }
+
+    private static BufferedImage compressImage(BufferedImage originalImage, int type, int width, int height) {
+        BufferedImage resizedImage = new BufferedImage(width, height, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, width, height, null);
+        g.dispose();/* w w w  .  ja  v  a2 s .c  o m*/
+
+        return resizedImage;
     }
 }
