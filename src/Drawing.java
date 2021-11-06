@@ -3,8 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -13,10 +12,11 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
     private int x;
     private int y;
     private String nameFigure;
-    private final ArrayList<Figure> list;
+    private ArrayList<Figure> list;
     private Figure figure;
     private Point Click;
     protected boolean FilledFigure;
+    private BufferedImage FilePicture;
 
 
     public Drawing(){
@@ -36,6 +36,14 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         this.nameFigure = nameFigure;
     }
 
+    public void setList(ArrayList<Figure> list){
+        this.list=list;
+    }
+
+    public void setFilePicture(BufferedImage filePicture) {
+        FilePicture = filePicture;
+    }
+
     @Override
     public String toString() {
         return "Drawing{" +
@@ -51,18 +59,22 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         return c;
     }
 
+    public ArrayList<Figure> getList() {
+        return list;
+    }
+
+    public BufferedImage getFilePicture() {
+        return FilePicture;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(FilePicture,0,0,null);
         for(Figure f:list){
             f.draw(g);
             this.repaint();
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -82,47 +94,6 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         System.out.println("x="+ this.x + ",y=" +this.y + "Color=" + c + "Figure=" + nameFigure);
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-//        this.x = e.getX();
-//        this.y = e.getY();
-//        Point Release = new Point(x, y);
-//        if(Objects.equals(nameFigure, "Line")){
-//            figure.setBoundingBox(figure.origin, Release);
-//            repaint();
-//        }
-//        else{
-//            if (Release.getX() > Click.getX() & Release.getY() > Click.getY() ) {
-//                int heightBB = Math.abs(Click.getY() - Release.getY());
-//                int widthBB = Math.abs(Release.getX() - Click.getX());
-//                figure.setBoundingBox(heightBB, widthBB);
-//                repaint();
-//            }
-//            if (Release.getX() < Click.getX() & Release.getY() > Click.getY() ) {
-//                figure.origin.setX(Release.getX());
-//                int heightBB = Math.abs(Click.getY() - Release.getY());
-//                int widthBB = Math.abs(Release.getX() - Click.getX());
-//                figure.setBoundingBox(heightBB, widthBB);
-//                repaint();
-//            }
-//            if (Release.getX() < Click.getX() & Release.getY() < Click.getY() ) {
-//                figure.origin.setX(Release.getX());
-//                figure.origin.setY(Release.getY());
-//                int heightBB = Math.abs(Click.getY() - Release.getY());
-//                int widthBB = Math.abs(Release.getX() - Click.getX());
-//                figure.setBoundingBox(heightBB, widthBB);
-//                repaint();
-//            }
-//            if (Release.getX() > Click.getX() & Release.getY() < Click.getY() ) {
-//                figure.origin.setY(Release.getY());
-//                int heightBB = Math.abs(Click.getY() - Release.getY());
-//                int widthBB = Math.abs(Release.getX() - Click.getX());
-//                figure.setBoundingBox(heightBB, widthBB);
-//                repaint();
-//            }
-//        }
-    }
-
     public void Clear(){
         this.list.clear();
     }
@@ -134,28 +105,18 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
     }
 
     public void Save(){
-        try{
-            FileOutputStream fos = new FileOutputStream("saveDrawing");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(list);
-            oos.close();
-            fos.close();
-            System.out.println("Saved");
-        }
-        catch (Exception e){
-            System.out.println("problem");
-    }
-}
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+//        try{
+//            FileOutputStream fos = new FileOutputStream("saveDrawing");
+//            ObjectOutputStream oos = new ObjectOutputStream(fos);
+//
+//            oos.writeObject(list);
+//            oos.close();
+//            fos.close();
+//            System.out.println("Saved");
+//        }
+//        catch (Exception e){
+//            System.out.println("problem");
+//        }
     }
 
     @Override
@@ -211,6 +172,26 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
     }
 }

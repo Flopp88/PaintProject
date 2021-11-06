@@ -45,9 +45,9 @@ public class Rectangle extends Figure{
     public String toString() {
         return "Rectangle{" +
                 "c=" + c +
-                ", origin=" + origin +
                 ", length=" + length +
                 ", width=" + width +
+                ", origin=" + origin +
                 '}';
     }
 

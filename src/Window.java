@@ -1,6 +1,13 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Window extends JFrame implements ActionListener{
     protected Drawing drawPanel=new Drawing();
@@ -99,7 +106,6 @@ public class Window extends JFrame implements ActionListener{
         FigurePanel.add(Line);
         FigurePanel.add(Fill);
 
-
         contentPanel.add(Panel,"South");
         Panel.add(ColorPanel);
         Panel.add(FigurePanel);
@@ -121,6 +127,8 @@ public class Window extends JFrame implements ActionListener{
         Magenta.addActionListener(this);
         Pink.addActionListener(this);
 
+        Open.addActionListener(this);
+        New.addActionListener(this);
         Save.addActionListener(this);
         Undo.addActionListener(this);
         Clear.addActionListener(this);
@@ -168,7 +176,35 @@ public class Window extends JFrame implements ActionListener{
                     drawPanel.Clear();
                 }
             }
-            case "Save" -> drawPanel.Save();
+            case "Open" ->{
+                BufferedImage pictureFile=null;
+                try {
+                    System.out.println("load");
+                    pictureFile = ImageIO.read(new File("C:\\Users\\flori\\IdeaProjects\\ProjectPaint\\Paint.png"));
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                assert pictureFile != null;
+                drawPanel.Clear();
+                this.drawPanel.setFilePicture(pictureFile);
+                drawPanel.paintComponent(drawPanel.getGraphics());
+            }
+            case "New" -> {
+                drawPanel.Clear();
+                drawPanel.setFilePicture(null);
+                drawPanel.paintComponent(drawPanel.getGraphics());
+            }
+            case "Save" -> {
+                Container cPanel = drawPanel;
+                BufferedImage im = new BufferedImage(cPanel.getWidth(), cPanel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+                cPanel.paint(im.getGraphics());
+                try {
+                    ImageIO.write(im, "PNG", new File("Paint.png"));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 }

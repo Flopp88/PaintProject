@@ -29,9 +29,9 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point{" +
+        return "Point[" +
                 "X=" + X +
                 ", Y=" + Y +
-                '}';
+                ']';
     }
 }
