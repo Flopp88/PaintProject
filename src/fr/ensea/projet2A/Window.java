@@ -233,7 +233,7 @@ public class Window extends JFrame implements ActionListener{
         BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, width, height, null);
-        g.dispose();/* w w w  .  ja  v  a2 s .c  o m*/
+        g.dispose();
 
         return resizedImage;
     }
