@@ -152,7 +152,7 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
                 int widthBB = Math.abs(DraggedPoint.getX() - Click.getX());
                 if(Objects.equals(nameFigure, "Square") | Objects.equals(nameFigure, "Circle")) {
                     if (heightBB > widthBB) {
-                    figure.origin.setY(DraggedPoint.getY() - Math.abs(heightBB - widthBB));
+                    figure.origin.setY(DraggedPoint.getY() +heightBB - widthBB);
                     }
                     else {
                         figure.origin.setX(DraggedPoint.getX() + widthBB - heightBB);
