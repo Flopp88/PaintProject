@@ -97,7 +97,7 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
     }
 
     public void Clear(){
-        this.list.clear();
+        list.clear();
     }
 
     public void Undo() {
@@ -131,12 +131,12 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
             repaint();
         }
         else{
-            if(DraggedPoint.getX() > Click.getX() & DraggedPoint.getY() > Click.getY() ){
+            if(DraggedPoint.getX() > Click.getX() & DraggedPoint.getY() > Click.getY() ){ //Down right figure
                 int heightBB = Math.abs(Click.getY() - DraggedPoint.getY());
                 int widthBB = Math.abs(DraggedPoint.getX() - Click.getX());
                 figure.setBoundingBox(heightBB, widthBB);
             }
-            if(DraggedPoint.getX() < Click.getX() & DraggedPoint.getY() > Click.getY() ){
+            if(DraggedPoint.getX() < Click.getX() & DraggedPoint.getY() > Click.getY() ){ //Down left figure
                 figure.origin.setX(DraggedPoint.getX());
                 int heightBB = Math.abs(Click.getY() - DraggedPoint.getY());
                 int widthBB = Math.abs(DraggedPoint.getX() - Click.getX());
@@ -145,14 +145,14 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
                 }
                 figure.setBoundingBox(heightBB, widthBB);
             }
-            if(DraggedPoint.getX() < Click.getX() & DraggedPoint.getY() < Click.getY() ){
+            if(DraggedPoint.getX() < Click.getX() & DraggedPoint.getY() < Click.getY() ){ //Upper left figure
                 figure.origin.setX(DraggedPoint.getX());
                 figure.origin.setY(DraggedPoint.getY());
                 int heightBB = Math.abs(Click.getY() - DraggedPoint.getY());
                 int widthBB = Math.abs(DraggedPoint.getX() - Click.getX());
                 if(Objects.equals(nameFigure, "Square") | Objects.equals(nameFigure, "Circle")) {
                     if (heightBB > widthBB) {
-                        figure.origin.setY(DraggedPoint.getY() + heightBB - widthBB);
+                    figure.origin.setY(DraggedPoint.getY() - Math.abs(heightBB - widthBB));
                     }
                     else {
                         figure.origin.setX(DraggedPoint.getX() + widthBB - heightBB);
@@ -160,7 +160,7 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
                 }
                 figure.setBoundingBox(heightBB, widthBB);
             }
-            if(DraggedPoint.getX() > Click.getX() & DraggedPoint.getY() < Click.getY() ){
+            if(DraggedPoint.getX() > Click.getX() & DraggedPoint.getY() < Click.getY() ){ //Upper right figure
                 figure.origin.setY(DraggedPoint.getY());
                 int heightBB = Math.abs(Click.getY() - DraggedPoint.getY());
                 int widthBB = Math.abs(DraggedPoint.getX() - Click.getX());

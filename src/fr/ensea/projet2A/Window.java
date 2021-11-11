@@ -51,6 +51,41 @@ public class Window extends JFrame implements ActionListener{
         JMenuItem Clear= new JMenuItem("Clear");
         Clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
 
+        JMenu BackgroundSelection= new JMenu("Background Color");
+        JRadioButton WhiteBackground= new JRadioButton("White ");
+        JRadioButton BlackBackground= new JRadioButton("Black ");
+        JRadioButton GreenBackground= new JRadioButton("Green ");
+        JRadioButton BlueBackground= new JRadioButton("Blue ");
+        JRadioButton RedBackground= new JRadioButton("Red ");
+        JRadioButton YellowBackground= new JRadioButton("Yellow ");
+        JRadioButton OrangeBackground= new JRadioButton("Orange ");
+        JRadioButton MagentaBackground= new JRadioButton("Magenta ");
+        JRadioButton PinkBackground= new JRadioButton("Pink ");
+
+        ButtonGroup bg= new ButtonGroup();
+
+        bg.add(WhiteBackground);
+        bg.add(BlackBackground);
+        bg.add(GreenBackground);
+        bg.add(BlueBackground);
+        bg.add(RedBackground);
+        bg.add(YellowBackground);
+        bg.add(OrangeBackground);
+        bg.add(MagentaBackground);
+        bg.add(PinkBackground);
+
+        BackgroundSelection.add(WhiteBackground);
+        BackgroundSelection.add(BlackBackground);
+        BackgroundSelection.add(GreenBackground);
+        BackgroundSelection.add(BlueBackground);
+        BackgroundSelection.add(RedBackground);
+        BackgroundSelection.add(YellowBackground);
+        BackgroundSelection.add(OrangeBackground);
+        BackgroundSelection.add(MagentaBackground);
+        BackgroundSelection.add(PinkBackground);
+
+        Options.add(BackgroundSelection);
+        Options.addSeparator();
         Options.add(Undo);
         Options.add(Clear);
 
@@ -76,6 +111,9 @@ public class Window extends JFrame implements ActionListener{
         Magenta.setBackground(Color.magenta);
         JButton Pink= new JButton("Pink");
         Pink.setBackground(Color.pink);
+        JButton White= new JButton("White");
+        White.setBackground(Color.white);
+
 
         JButton Square= new JButton("Square");
         JButton Rectangle= new JButton("Rectangle");
@@ -91,7 +129,7 @@ public class Window extends JFrame implements ActionListener{
 
         Panel.setLayout(new GridLayout(1,2));
         FigurePanel.setLayout(new GridLayout(2,2));
-        ColorPanel.setLayout(new GridLayout(2,4));
+        ColorPanel.setLayout(new GridLayout(3,3));
 
         ColorPanel.add(Green);
         ColorPanel.add(Blue);
@@ -101,6 +139,7 @@ public class Window extends JFrame implements ActionListener{
         ColorPanel.add(Red);
         ColorPanel.add(Magenta);
         ColorPanel.add(Pink);
+        ColorPanel.add(White);
 
 
         FigurePanel.add(Rectangle);
@@ -130,6 +169,17 @@ public class Window extends JFrame implements ActionListener{
         Orange.addActionListener(this);
         Magenta.addActionListener(this);
         Pink.addActionListener(this);
+        White.addActionListener(this);
+
+        BlackBackground.addActionListener(this);
+        WhiteBackground.addActionListener(this);
+        GreenBackground.addActionListener(this);
+        BlueBackground.addActionListener(this);
+        RedBackground.addActionListener(this);
+        MagentaBackground.addActionListener(this);
+        OrangeBackground.addActionListener(this);
+        YellowBackground.addActionListener(this);
+        PinkBackground.addActionListener(this);
 
         Open.addActionListener(this);
         New.addActionListener(this);
@@ -155,7 +205,9 @@ public class Window extends JFrame implements ActionListener{
             case "Ellipse" -> drawPanel.setNameFigure("Ellipse");
             case "Line" -> drawPanel.setNameFigure("Line");
             case "Fill" -> drawPanel.FilledFigure=!drawPanel.FilledFigure;
+
             case "Black" -> drawPanel.setColor(Color.black);
+            case "White" -> drawPanel.setColor(Color.white);
             case "Blue" -> drawPanel.setColor(Color.blue);
             case "Red" -> drawPanel.setColor(Color.red);
             case "Green" -> drawPanel.setColor(Color.green);
@@ -173,12 +225,22 @@ public class Window extends JFrame implements ActionListener{
                 JOptionPane info=new JOptionPane();
                 JOptionPane.showInternalMessageDialog(info, "Author: POLSTER--PRIETO Florian", "Information",JOptionPane.INFORMATION_MESSAGE);
             }
+            case "Black " -> this.drawPanel.setBackground(Color.black);
+            case "White " -> this.drawPanel.setBackground(Color.white);
+            case "Green " -> this.drawPanel.setBackground(Color.green);
+            case "Blue " -> this.drawPanel.setBackground(Color.blue);
+            case "Red " -> this.drawPanel.setBackground(Color.red);
+            case "Yellow " -> this.drawPanel.setBackground(Color.yellow);
+            case "Magenta " -> this.drawPanel.setBackground(Color.magenta);
+            case "Pink " -> this.drawPanel.setBackground(Color.pink);
+            case "Orange " -> this.drawPanel.setBackground(Color.orange);
             case "Undo" -> drawPanel.Undo();
             case "Clear" -> {
                 if (JOptionPane.showConfirmDialog(null, "Delete your drawings?", "WARNING",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    drawPanel.Clear();
                     drawPanel.setFilePicture(null);
+                    drawPanel.setBackground(Color.white);
+                    drawPanel.Clear();
                     drawPanel.paintComponent(drawPanel.getGraphics());
                 }
             }
@@ -187,7 +249,7 @@ public class Window extends JFrame implements ActionListener{
                 try {
                     JFileChooser f=new JFileChooser();
                     f.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                    f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png"));
+                    f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png","gif"));
                     f.showOpenDialog(null);
 
                     System.out.println("load");
@@ -197,8 +259,11 @@ public class Window extends JFrame implements ActionListener{
                     ex.printStackTrace();
                 }
                 if(pictureFile != null) {
-                    if (pictureFile.getHeight() > drawPanel.getHeight() | pictureFile.getWidth() > drawPanel.getWidth()) {
-                        pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), drawPanel.getHeight());
+                    if (pictureFile.getHeight() > drawPanel.getHeight()){
+                        pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, pictureFile.getWidth(), drawPanel.getHeight());
+                    }
+                    if (pictureFile.getWidth() > drawPanel.getWidth()){
+                        pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), pictureFile.getHeight());
                     }
                     drawPanel.Clear();
                     this.drawPanel.setFilePicture(pictureFile);
