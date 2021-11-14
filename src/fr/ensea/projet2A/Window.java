@@ -2,6 +2,8 @@ package fr.ensea.projet2A;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,8 +14,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Window extends JFrame implements ActionListener{
+public class Window extends JFrame implements ActionListener, ChangeListener {
     protected Drawing drawPanel=new Drawing();
+    static final int MIN_Thickness=0;
+    static final int MAX_Thickness=20;
+    static final int INIT_Thickness=1;
 
     public Window(String Title,int x,int y) {
         super(Title);
@@ -84,6 +89,19 @@ public class Window extends JFrame implements ActionListener{
         BackgroundSelection.add(MagentaBackground);
         BackgroundSelection.add(PinkBackground);
 
+        JCheckBox Fill= new JCheckBox("Filled Figures");
+
+        JSlider Thickness=new JSlider(JSlider.HORIZONTAL,MIN_Thickness,MAX_Thickness,INIT_Thickness);
+        Thickness.setMajorTickSpacing(10);
+        Thickness.setMinorTickSpacing(1);
+        Thickness.setPaintTicks(true);
+        Thickness.setPaintLabels(true);
+
+        JLabel title=new JLabel("Thickness");
+
+        Options.add(title);
+        Options.add(Thickness);
+        Options.add(Fill);
         Options.add(BackgroundSelection);
         Options.addSeparator();
         Options.add(Undo);
@@ -120,7 +138,9 @@ public class Window extends JFrame implements ActionListener{
         JButton Circle= new JButton("Circle");
         JButton Ellipse= new JButton("Ellipse");
         JButton Line= new JButton("Line");
-        JCheckBox Fill= new JCheckBox("Fill");
+        JButton Pen= new JButton("Pen");
+
+
 
         JPanel Panel=new JPanel();
         JPanel FigurePanel=new JPanel();
@@ -147,7 +167,7 @@ public class Window extends JFrame implements ActionListener{
         FigurePanel.add(Line);
         FigurePanel.add(Square);
         FigurePanel.add(Circle);
-        FigurePanel.add(Fill);
+        FigurePanel.add(Pen);
 
         contentPanel.add(Panel,"South");
         Panel.add(ColorPanel);
@@ -159,7 +179,8 @@ public class Window extends JFrame implements ActionListener{
         Circle.addActionListener(this);
         Ellipse.addActionListener(this);
         Line.addActionListener(this);
-        Fill.addActionListener(this);
+        Pen.addActionListener(this);
+
 
         Black.addActionListener(this);
         Blue.addActionListener(this);
@@ -188,6 +209,8 @@ public class Window extends JFrame implements ActionListener{
         Clear.addActionListener(this);
         Authors.addActionListener(this);
         Quit.addActionListener(this);
+        Fill.addActionListener(this);
+        Thickness.addChangeListener(this);
 
         this.setJMenuBar(m);
 
@@ -204,7 +227,8 @@ public class Window extends JFrame implements ActionListener{
             case "Circle" -> drawPanel.setNameFigure("Circle");
             case "Ellipse" -> drawPanel.setNameFigure("Ellipse");
             case "Line" -> drawPanel.setNameFigure("Line");
-            case "Fill" -> drawPanel.FilledFigure=!drawPanel.FilledFigure;
+            case "Pen" -> drawPanel.setNameFigure("Pen");
+            case "Filled Figures" -> drawPanel.FilledFigure=!drawPanel.FilledFigure;
 
             case "Black" -> drawPanel.setColor(Color.black);
             case "White" -> drawPanel.setColor(Color.white);
@@ -221,7 +245,7 @@ public class Window extends JFrame implements ActionListener{
                     dispose();
                 }
             }
-            case "Authors" -> {
+            case "Author" -> {
                 JOptionPane info=new JOptionPane();
                 JOptionPane.showInternalMessageDialog(info, "Author: POLSTER--PRIETO Florian", "Information",JOptionPane.INFORMATION_MESSAGE);
             }
@@ -291,6 +315,13 @@ public class Window extends JFrame implements ActionListener{
                     ex.printStackTrace();
                 }
             }
+        }
+    }
+
+    public void stateChanged(ChangeEvent e){
+        JSlider source = (JSlider)e.getSource();
+        if (!source.getValueIsAdjusting()) {
+            drawPanel.Thickness = source.getValue();
         }
     }
 

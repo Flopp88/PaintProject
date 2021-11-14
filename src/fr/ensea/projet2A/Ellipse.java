@@ -34,6 +34,8 @@ public class Ellipse extends Figure{
             g.fillOval(origin.getX(), origin.getY(), this.semiAxisX * 2, this.semiAxisY * 2);
         }
         else{
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(Thickness));
             g.drawOval(origin.getX(), origin.getY(), this.semiAxisX * 2, this.semiAxisY * 2);
         }
     }
@@ -46,6 +48,11 @@ public class Ellipse extends Figure{
                 ", c=" + c +
                 ", origin=" + origin +
                 '}';
+    }
+
+    @Override
+    public void appendPoint(Point p) {
+
     }
 
     public void setSemiAxisX(int semiAxisX) {

@@ -19,6 +19,11 @@ public class Line extends Figure{
         this.end=p;
     }
 
+    @Override
+    public void appendPoint(Point p) {
+
+    }
+
 
     @Override
     protected void setBoundingBox(int heightBB, int widthBB) {
@@ -35,6 +40,8 @@ public class Line extends Figure{
     @Override
     public void draw(Graphics g) {
         g.setColor(c);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(Thickness));
         g.drawLine(origin.getX(),origin.getY(),end.getX(),end.getY());
     }
 

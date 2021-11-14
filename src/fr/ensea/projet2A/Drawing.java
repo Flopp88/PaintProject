@@ -19,7 +19,7 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
     private Point Click;
     protected boolean FilledFigure;
     private BufferedImage FilePicture;
-
+    protected int Thickness;
 
     public Drawing(){
         list= new ArrayList<>();
@@ -90,9 +90,11 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
             case "Circle" -> list.add(figure= new Circle(c,new Point(x, y)));
             case "Ellipse" -> list.add(figure= new Ellipse(c, new Point(x, y)));
             case "Line" -> list.add(figure= new Line(c, new Point(x,y)));
+            case "Pen" -> list.add(figure= new Pen(c, new Point(x,y)));
         }
         repaint();
         figure.setFilledFigure(FilledFigure);
+        figure.setThickness(Thickness);
         System.out.println("x="+ this.x + ",y=" +this.y + "Color=" + c + "Figure=" + nameFigure);
     }
 
@@ -106,29 +108,18 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         }
     }
 
-    public void Save(){
-//        try{
-//            FileOutputStream fos = new FileOutputStream("saveDrawing");
-//            ObjectOutputStream oos = new ObjectOutputStream(fos);
-//
-//            oos.writeObject(list);
-//            oos.close();
-//            fos.close();
-//            System.out.println("Saved");
-//        }
-//        catch (Exception e){
-//            System.out.println("problem");
-//        }
-    }
-
     @Override
     public void mouseDragged(MouseEvent e) {
         this.x = e.getX();
         this.y = e.getY();
         Point DraggedPoint = new Point(x, y);
+        if(Objects.equals(nameFigure, "Pen")){
+            figure.appendPoint(DraggedPoint);
+        }
         if(Objects.equals(nameFigure, "Line")) {
             figure.setBoundingBox(figure.origin, DraggedPoint);
             repaint();
+
         }
         else{
             if(DraggedPoint.getX() > Click.getX() & DraggedPoint.getY() > Click.getY() ){ //Down right figure

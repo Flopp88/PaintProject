@@ -28,6 +28,8 @@ public class Rectangle extends Figure{
             g.fillRect(origin.getX(), origin.getY(), this.width, this.length);
         }
         else{
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(Thickness));
             g.drawRect(origin.getX(), origin.getY(), this.width, this.length);
         }
     }
@@ -51,6 +53,11 @@ public class Rectangle extends Figure{
                 ", width=" + width +
                 ", origin=" + origin +
                 '}';
+    }
+
+    @Override
+    public void appendPoint(Point p) {
+
     }
 
     public void setLength(int length) {
