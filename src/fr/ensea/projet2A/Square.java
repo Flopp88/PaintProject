@@ -1,32 +1,20 @@
-package fr.ensea.projet2A;
-
-import java.awt.*;
+import java.awt.Color;
 
 public class Square extends Rectangle{
 
     public Square(){
-        super.length=0;
-        super.width=0;
-        super.c= Color.gray;
+        super();
     }
 
-    public Square(Color c, Point p){
-        super(c,p);
+    public Square(Color c, int px, int py, float size){
+        super(c, px, py, size);
     }
 
     @Override
-    public void setBoundingBox(int heightBB,int widthBB) {
-        int min=Math.min(heightBB,widthBB);
-        super.setBoundingBox(min, min);
+    public void setBoundingBox(int heightBB, int widthBB) {
+        int m = Math.min(heightBB, widthBB);
+        this.length = m;
+        this.width = m;
     }
 
-    @Override
-    public void setLength(int length) {
-        super.setLength(length);
-    }
-
-    @Override
-    public void setWidth(int width) {
-        super.setWidth(width);
-    }
 }

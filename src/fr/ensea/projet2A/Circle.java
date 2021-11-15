@@ -1,34 +1,20 @@
-package fr.ensea.projet2A;
+import java.awt.Color;
 
-import java.awt.*;
-
-public class Circle extends Ellipse {
+public class Circle extends Ellipse{
 
     public Circle(){
-        super.semiAxisX=0;
-        super.semiAxisY=0;
-        super.c= Color.gray;
+        super();
     }
 
-    public Circle(Color c, Point p){
-        super(c,p);
+    public Circle(Color c, int px, int py, float size){
+        super(c, px, py, size);
     }
 
     @Override
     public void setBoundingBox(int heightBB, int widthBB) {
-        int min=Math.min(heightBB,widthBB);
-        super.setBoundingBox(min, min);
+        int m = Math.min(heightBB, widthBB);
+        this.semiAxisX = m;
+        this.semiAxisY = m;
     }
-
-    @Override
-    public void setSemiAxisX(int semiAxisX) {
-        super.setSemiAxisX(semiAxisX);
-    }
-
-    @Override
-    public void setSemiAxisY(int semiAxisY) {
-        super.setSemiAxisY(semiAxisY);
-    }
-
 
 }

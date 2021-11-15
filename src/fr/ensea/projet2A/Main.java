@@ -1,7 +1,5 @@
-package fr.ensea.projet2A;
-
 public class Main {
-        static public void main (String[] args){
-                Window win =new Window("Paint",800,600);
-        }
+    public static void main(String[] args) {
+        Window win = new Window("Paint", 1000, 600);
+    }
 }

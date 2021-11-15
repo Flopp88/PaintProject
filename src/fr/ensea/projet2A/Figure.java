@@ -1,53 +1,34 @@
-package fr.ensea.projet2A;
-
 import java.awt.*;
 
-public abstract class Figure {
-    protected Color c;
+public abstract class Figure{
+
+    protected Color color;
     protected Point origin;
-    protected boolean FilledFigure=true;
-    protected int Thickness;
+    protected float line_size;
 
-    protected abstract void setBoundingBox(int heightBB, int widthBB);
-    protected abstract void setBoundingBox(Point origin, Point end);
-
-
-    public abstract void draw (Graphics g);
+    public Figure(Color c, Point x, float size){
+        this.color = c;
+        this.origin = x;
+        this.line_size = size;
+    }
 
     public Figure(){
-        this.c=Color.gray;
-        this.origin=new Point();
+        this.color = Color.black;
+        this.origin = new Point();
+        this.line_size = 1;
     }
-    public Figure(Color c,Point p){
-        this.c=c;
-        this.origin=p;
+
+    public abstract void setBoundingBox (int heightBB, int widthBB);
+    public abstract void draw (Graphics2D g2d);
+
+    public Color getColor() {
+        return color;
     }
 
     @Override
     public String toString() {
         return "Figure{" +
-                "c=" + c +
+                "color=" + color +
                 '}';
     }
-
-    public boolean isFilledFigure() {
-        return FilledFigure;
-    }
-
-    public void setFilledFigure(boolean filledFigure) {
-        FilledFigure = filledFigure;
-    }
-
-    public void setThickness(int thickness) {
-        Thickness = thickness;
-    }
-
-    public int getThickness() {
-        return Thickness;
-    }
-
-    public abstract void appendPoint(Point p);
 }
-
-
-

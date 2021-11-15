@@ -1,71 +1,45 @@
-package fr.ensea.projet2A;
-
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class Rectangle extends Figure{
     protected int length;
     protected int width;
 
-    public Rectangle(int length, int width, Color c){
-        this.length=length;
-        this.width=width;
-        super.c=c;
-    }
-
-    public Rectangle(Color c, Point p){
-        super(c,p);
-    }
-
     public Rectangle(){
-        this.length=0;
-        this.width=0;
-        super.c=Color.gray;
+        super(Color.BLACK, new Point(), 1);
+        this.length = 0;
+        this.width = 0;
     }
-    @Override
-    public void draw(Graphics g) {
-        g.setColor(c);
-        if(isFilledFigure()) {
-            g.fillRect(origin.getX(), origin.getY(), this.width, this.length);
-        }
-        else{
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(Thickness));
-            g.drawRect(origin.getX(), origin.getY(), this.width, this.length);
-        }
+
+    public Rectangle(Color c){
+        super(c, new Point(), 1);
+        this.length = 0;
+        this.width = 0;
+    }
+
+    public Rectangle(Color c, int px, int py, float size){
+        super(c, new Point(px, py), size);
+        this.length = 0;
+        this.width = 0;
     }
 
     @Override
     public void setBoundingBox(int heightBB, int widthBB) {
-        this.length=heightBB;
-        this.width=widthBB;
+        this.length = heightBB;
+        this.width = widthBB;
     }
 
-    @Override
-    protected void setBoundingBox(Point origin, Point end) {
+    public void draw(Graphics2D g2d) {
+        g2d.setColor(this.color);
 
-    }
+        if (this.line_size == 6) {
+            g2d.fill(new Rectangle2D.Float(this.origin.getX(), this.origin.getY(), this.width, this.length));
+        }
+        else {
+            g2d.setStroke(new BasicStroke(this.line_size));
+            g2d.draw(new Rectangle2D.Float(this.origin.getX(), this.origin.getY(), this.width, this.length));
+        }
 
-    @Override
-    public String toString() {
-        return "Rectangle{" +
-                "c=" + c +
-                ", length=" + length +
-                ", width=" + width +
-                ", origin=" + origin +
-                '}';
-    }
-
-    @Override
-    public void appendPoint(Point p) {
-
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public int getLength() {
@@ -77,10 +51,28 @@ public class Rectangle extends Figure{
     }
 
     public int getPerimeter(){
-        return 2*length+2*width;
+        return 2*(this.length + this.width);
     }
 
     public int getSurface(){
-        return length*width;
+        return this.length * this.width;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setColor(Color c){ this.color = c; }
+
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "length=" + length +
+                ", width=" + width +
+                '}';
     }
 }
