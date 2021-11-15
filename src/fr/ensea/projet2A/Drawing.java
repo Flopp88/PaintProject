@@ -80,7 +80,6 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         g.drawImage(FilePicture,0,0,null);
         for(Figure f:list){
             f.draw(g);
-            this.repaint();
         }
     }
 
@@ -95,7 +94,8 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
             case "Circle" -> list.add(figure= new Circle(c,new Point(x, y)));
             case "Ellipse" -> list.add(figure= new Ellipse(c, new Point(x, y)));
             case "Line" -> list.add(figure= new Line(c, new Point(x,y)));
-            case "Pen" -> list.add(figure= new Pen(c, new Point(x,y)));
+            case "Pen"-> list.add(figure= new Pen(c, new Point(x,y)));
+
         }
         repaint();
         figure.setFilledFigure(FilledFigure);
@@ -104,12 +104,14 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
 
     public void Clear(){
         list.clear();
+        repaint();
     }
 
     public void Undo() {
         if (list.size() >= 1) {
             this.list.remove(list.size() - 1);
         }
+        repaint();
     }
 
     @Override
@@ -163,6 +165,7 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
                 figure.setBoundingBox(heightBB, widthBB);
             }
         }
+        repaint();
     }
 
     @Override
@@ -189,4 +192,5 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
     public void mouseClicked(MouseEvent e) {
 
     }
+
 }
