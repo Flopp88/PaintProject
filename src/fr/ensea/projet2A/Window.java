@@ -221,8 +221,7 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
 
     public void actionPerformed(ActionEvent e){
         String cmd=e.getActionCommand();
-
-
+        
         switch (cmd) {
             case "Square" -> drawPanel.setNameFigure("Square");
             case "Rectangle" -> drawPanel.setNameFigure("Rectangle");
@@ -242,8 +241,7 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
             case "Magenta" -> drawPanel.setColor(Color.magenta);
             case "Pink" -> drawPanel.setColor(Color.pink);
             case "Quit" -> {
-                if (JOptionPane.showConfirmDialog(null, "Close Paint?", "WARNING",
-                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(null, "Close Paint?", "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     dispose();
                 }
             }
@@ -262,8 +260,7 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
             case "Orange " -> this.drawPanel.setBackground(Color.orange);
             case "Undo" -> drawPanel.Undo();
             case "Clear" -> {
-                if (JOptionPane.showConfirmDialog(null, "Delete your drawings?", "WARNING",
-                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(null, "Delete your drawings?", "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     drawPanel.setFilePicture(null);
                     drawPanel.setBackground(Color.white);
                     drawPanel.Clear();
@@ -271,29 +268,28 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
                 }
             }
             case "Open" ->{
-                BufferedImage pictureFile=null;
+                BufferedImage pictureFile;
                 try {
-                    JFileChooser f=new JFileChooser();
+                    JFileChooser f = new JFileChooser();
                     f.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                    f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png","gif"));
-                    f.showOpenDialog(null);
+                    f.setFileFilter(new FileNameExtensionFilter("Image", "jpg", "png", "gif"));
+                    int mode = f.showOpenDialog(null);
 
-                    System.out.println("load");
-                    pictureFile = ImageIO.read(new File(String.valueOf(f.getSelectedFile())));
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    if (mode == JFileChooser.APPROVE_OPTION){ //to ensure nothing is opened if the cancel button is selected
+                        pictureFile = ImageIO.read(new File(String.valueOf(f.getSelectedFile())));
+                        if (pictureFile.getHeight() > drawPanel.getHeight()){
+                            pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, pictureFile.getWidth(), drawPanel.getHeight());
+                        }
+                        if (pictureFile.getWidth() > drawPanel.getWidth()){
+                            pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), pictureFile.getHeight());
+                        }
+                        drawPanel.Clear();
+                        this.drawPanel.setFilePicture(pictureFile);
+                        drawPanel.paintComponent(drawPanel.getGraphics());
+                    }
                 }
-                if(pictureFile != null) {
-                    if (pictureFile.getHeight() > drawPanel.getHeight()){
-                        pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, pictureFile.getWidth(), drawPanel.getHeight());
-                    }
-                    if (pictureFile.getWidth() > drawPanel.getWidth()){
-                        pictureFile = compressImage(pictureFile, BufferedImage.TYPE_INT_ARGB, drawPanel.getWidth(), pictureFile.getHeight());
-                    }
-                    drawPanel.Clear();
-                    this.drawPanel.setFilePicture(pictureFile);
-                    drawPanel.paintComponent(drawPanel.getGraphics());
+                catch (IOException ex){
+                    ex.printStackTrace();
                 }
             }
             case "New" -> new Window("Paint",800,600);
@@ -305,15 +301,18 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
                     JFileChooser f=new JFileChooser();
                     f.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                     f.setFileFilter(new FileNameExtensionFilter("Image","jpg","png"));
-                    f.showSaveDialog(null);
+                    int mode = f.showSaveDialog(null);
 
-                    if(String.valueOf(f.getSelectedFile()).endsWith(".png") | String.valueOf(f.getSelectedFile()).endsWith(".jpg")) {
-                        ImageIO.write(im, "PNG", new File(String.valueOf(f.getSelectedFile())));
+                    if(mode==JFileChooser.APPROVE_OPTION) {
+                        if (String.valueOf(f.getSelectedFile()).endsWith(".png") | String.valueOf(f.getSelectedFile()).endsWith(".jpg")) {
+                            ImageIO.write(im, "PNG", new File(String.valueOf(f.getSelectedFile())));
+                        } else {
+                            ImageIO.write(im, "PNG", new File(f.getSelectedFile() + ".png"));
+                            //if the user forgets to specify the type of the file, we ensure it is saved as .png to be able to open it afterwards
+                        }
                     }
-                    else{
-                        ImageIO.write(im, "PNG", new File(f.getSelectedFile() + ".png"));
-                    }
-                } catch (IOException ex) {
+                }
+                catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -327,7 +326,7 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
         }
     }
 
-    private static BufferedImage compressImage(BufferedImage originalImage, int type, int width, int height) {
+    private BufferedImage compressImage(BufferedImage originalImage, int type, int width, int height) {
         BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, width, height, null);

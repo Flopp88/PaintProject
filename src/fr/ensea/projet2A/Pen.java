@@ -35,13 +35,12 @@ public class Pen extends Figure{
     public void draw(Graphics g) {
         g.setColor(c);
         int k;
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(Thickness));
         for(k=0;k<PenPoints.size()-1;k++){
             Point Begin= PenPoints.get(k);
             Point End= PenPoints.get(k+1);
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(Thickness));
             g2d.drawLine(Begin.getX(), Begin.getY(), End.getX(), End.getY());
         }
-
     }
 }

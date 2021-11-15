@@ -54,6 +54,11 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
                 ", y=" + y +
                 ", nameFigure='" + nameFigure + '\'' +
                 ", list=" + list +
+                ", figure=" + figure +
+                ", Click=" + Click +
+                ", FilledFigure=" + FilledFigure +
+                ", FilePicture=" + FilePicture +
+                ", Thickness=" + Thickness +
                 '}';
     }
 
@@ -95,7 +100,6 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         repaint();
         figure.setFilledFigure(FilledFigure);
         figure.setThickness(Thickness);
-        System.out.println("x="+ this.x + ",y=" +this.y + "Color=" + c + "Figure=" + nameFigure);
     }
 
     public void Clear(){
