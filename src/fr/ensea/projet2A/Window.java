@@ -32,7 +32,9 @@ public class Window extends JFrame implements ActionListener, ChangeListener {
 
         JMenu File = new JMenu("File");
         JMenuItem Open = new JMenuItem("Open");
+        Open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         JMenuItem New = new JMenuItem("New");
+        New.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         JMenuItem Save= new JMenuItem("Save");
         Save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         JMenuItem Quit= new JMenuItem("Quit");

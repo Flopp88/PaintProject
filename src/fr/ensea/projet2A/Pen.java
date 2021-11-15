@@ -6,6 +6,11 @@ import java.util.ArrayList;
 public class Pen extends Figure{
     protected ArrayList<Point> PenPoints;
 
+    public Pen(){
+        super.c=Color.black;
+        this.PenPoints= new ArrayList<>();
+    }
+
     public Pen(Color c, Point p){
         super(c,p);
         PenPoints= new ArrayList<>();

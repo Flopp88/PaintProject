@@ -118,8 +118,6 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
         }
         if(Objects.equals(nameFigure, "Line")) {
             figure.setBoundingBox(figure.origin, DraggedPoint);
-            repaint();
-
         }
         else{
             if(DraggedPoint.getX() > Click.getX() & DraggedPoint.getY() > Click.getY() ){ //Down right figure
